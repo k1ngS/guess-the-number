@@ -1,32 +1,46 @@
 #Number Guessing Game Objectives:
 from art import logo
-import random
+from random import randint
 
-print(logo)
-print("Welcome to the Number Guessing Game!")
-print("I'm thinking of a number between 1 and 100.")
+EASY_LEVEL_TURNS = 10
+HARD_LEVEL_TURNS = 5
 
-number_random = random.randrange(1,100)
-
-difficulty = input("Choose a difficulty. Type 'easy' or 'hard': ")
-
-chances = {"easy": 10,"hard": 5}
-
-game_over = False
-while not game_over:
-  print(f"You have {chances[difficulty]} attempts remaining to guess the number")
-  guess = int(input("Make a guess: "))
-
-  chances[difficulty] -= 1
-
-  if guess > number_random:
+def check_answer(guess, answer, turns):
+  """checks answer against guess. Returns the number of turns remaining."""
+  if guess > answer:
     print("Too hight.")
-  elif guess < number_random:
-    print("Too low.") 
+    return turns - 1
+  elif guess < answer:
+    print("Too low.")
+    return turns - 1 
   else:
-    print(f"You got it! The answer was {number_random}")
-    game_over = True
+    print(f"You got it! The answer was {answer}")
 
-  if 0 in chances.values():
-    print("You've run out of guesses, you lose.")
-    game_over = True
+def set_difficulty():
+  level = input("Choose a difficulty. Type 'easy' or 'hard': ")
+  if level == "easy":
+    return EASY_LEVEL_TURNS
+  else:
+    return HARD_LEVEL_TURNS
+
+def game():
+  print(logo)
+  print("Welcome to the Number Guessing Game!")
+  print("I'm thinking of a number between 1 and 100.")
+
+  answer = randint(1,100)
+
+  turns = set_difficulty()
+
+  guess = 0
+  while guess != answer:
+    print(f"You have {turns} attempts remaining to guess the number")
+    guess = int(input("Make a guess: "))
+    turns = check_answer(guess, answer, turns)
+    
+    if turns == 0:
+      print("You've run out of guesses, you lose.")
+      return
+    elif guess != answer:
+      print("Guess again.")
+game()
