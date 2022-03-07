@@ -18,10 +18,7 @@ def check_answer(guess, answer, turns):
 
 def set_difficulty():
   level = input("Choose a difficulty. Type 'easy' or 'hard': ")
-  if level == "easy":
-    return EASY_LEVEL_TURNS
-  else:
-    return HARD_LEVEL_TURNS
+  return EASY_LEVEL_TURNS if level == "easy" else HARD_LEVEL_TURNS
 
 def game():
   print(logo)
